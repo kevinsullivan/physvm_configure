@@ -10,7 +10,7 @@ to import. Here are the commands to buid, push
 (to DockerHub), and use our physvm containers.
 We assume you've already got docker running on
 your computer. Be logged in to the DockerHub
-account to be able to push the result 
+account to be able to push the result.
 
 ## Build image from Dockerfile
 
