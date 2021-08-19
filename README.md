@@ -1,17 +1,16 @@
 # Ubuntu 20.04, Lean Prover 3 Community, mathlib
 
 This directory supports building of a docker
-image for using the Lean Prover with mathlib
-on an Ubunty 20.04 platform, and pushing it 
-to DockerHub (a commercial image registry) so
-that others can pull it, exec it, and use it
-through VSCode to develop logic/code in Lean. 
-
-Here are the commands needed to buid, push
-(to DockerHub), and use our container. We
-assume you've already got docker running on
-your computer. Make sure that you're logged
-in to DockerHub. 
+image for using our physics library module. At
+present, this builder just imports and exports
+leanvm without changes. However, it builds and
+pushes a new image, physvm, which is what our
+physvm_develop forkable project template needs
+to import. Here are the commands to buid, push
+(to DockerHub), and use our physvm containers.
+We assume you've already got docker running on
+your computer. Be logged in to the DockerHub
+account to be able to push the result 
 
 ## Build image from Dockerfile
 
@@ -21,20 +20,20 @@ directory as the current working directory. The
 repository image name is kevinsullivan/clean_lean.
 It will have the tag, *latest*.
 ``` sh
-docker build -t kevinsullivan/physvm:latest . -m 8g
+docker build -t kevinsullivan/leanvm:latest . -m 8g
 ```
 
 ## Push image to DockerHub
 
 To push a copy of this image to dockerhub, do this:
 ``` sh
-docker push kevinsullivan/physvm
+docker push kevinsullivan/leanvm
 ```
 
 ## Pull image from DockerHub
 To pull a copy of the image to your local host machine, run: 
 ```sh
-docker pull kevinsullivan/physvm
+docker pull kevinsullivan/leanvm
 ```
 
 ## Start container
@@ -46,7 +45,7 @@ a name that reflects the local directory that is mounted on its
 container-local directory, /dm. 
 ```
 docker run -it --cap-add=SYS_PTRACE --rm --security-opt seccomp=unconfined \
-    --name %container_name% -v %source_directory_on_host%:/dm kevinsullivan/physvm \
+    --name %container_name% -v %source_directory_on_host%:/dm kevinsullivan/leanvm \
     /bin/bash
 ```
 
