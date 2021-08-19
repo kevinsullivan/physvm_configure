@@ -1,7 +1,16 @@
 # Ubuntu 20.04, Lean Prover 3 Community, mathlib
 
-This directory supports building of a docker
-image for using our physics library module. At
+Use this project to configure and build the
+physvm Docker image needed by physvm_develop,
+which in turn serves as a templace for a new
+project building on our math-physics library. 
+
+To use this project, clone it to your local
+machine, edit Dockerfile, and then build and
+push to Dockerhub a new image using commands
+explained below.
+
+At
 present, this builder just imports and exports
 leanvm without changes. However, it builds and
 pushes a new image, physvm, which is what our
