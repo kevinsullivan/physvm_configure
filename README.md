@@ -1,20 +1,67 @@
-# Affine Physics Development Environment
+# Ubuntu 20.04, Lean Prover 3 Community, mathlib
 
-This repository is configured to provide a phys development environment when forked and cloned into a VSCode remote container. It should but does not yet do it by pulling a domain image from DockerHub, where that image in turn is built (more easily pulled and pushed) using a host file system repository, edited using host-provided VSCode, and built and the like using host-provided Docker (Desktop).
+This directory supports building of a docker
+image for using the Lean Prover with mathlib
+on an Ubunty 20.04 platform, and pushing it 
+to DockerHub (a commercial image registry) so
+that others can pull it, exec it, and use it
+through VSCode to develop logic/code in Lean. 
 
-Next task 1: Rename/repurpose this project to build the precompiled image, then edit down a fork of it to define the project template, each fork of which will pull the compiled vm and build something using it. Common project platform, diverse and decentralized client developments but with PR mechanism to bring advances from the field back into the project easily.
+Here are the commands needed to buid, push
+(to DockerHub), and use our container. We
+assume you've already got docker running on
+your computer. Make sure that you're logged
+in to DockerHub. 
 
-Next task 2: Refactor Peirce DockerBuilder to build from the image produced by the previous step. We will have:
+## Build image from Dockerfile
 
-- Platform
-  - We maintain this
-  - Product is development environment image
-  - no .devcontainer directory
-- Project
-  - Customer creates new instance
-  - It provides VSCode dev environment and a place to build new stuff
-  - .devcontainer directory, each fork (project) has Dockerfile with hooks to extend platform image
+To build a new version of the clean_lean image, 
+run the following command in a terminal with this
+directory as the current working directory. The
+repository image name is kevinsullivan/clean_lean.
+It will have the tag, *latest*.
+``` sh
+docker build -t kevinsullivan/physvm:latest . -m 8g
+```
 
-Next task 3: Create a project instance for working with Andrew on his case studies
-Next task 4: Create a project instance for the rest of Peirce
-  
+## Push image to DockerHub
+
+To push a copy of this image to dockerhub, do this:
+``` sh
+docker push kevinsullivan/physvm
+```
+
+## Pull image from DockerHub
+To pull a copy of the image to your local host machine, run: 
+```sh
+docker pull kevinsullivan/physvm
+```
+
+## Start container
+To launch a container using this image run the following command.
+Replace %source_directory_on_host% with the host directory you want 
+the VM to access as /dm. Replace %container_name% with the name you'd
+like to give to the launched docker container. We suggest giving it 
+a name that reflects the local directory that is mounted on its
+container-local directory, /dm. 
+```
+docker run -it --cap-add=SYS_PTRACE --rm --security-opt seccomp=unconfined \
+    --name %container_name% -v %source_directory_on_host%:/dm kevinsullivan/physvm \
+    /bin/bash
+```
+
+## Get terminal into container
+To connect to a terminal shell into the VM, do this:
+``` sh
+docker exec -it lean /bin/bash
+```
+
+## Stop running container
+To stop a container from a terminal on your host machine, do this:
+``` sh
+docker stop lean
+```
+To stop a running image from a terminal into the container, exit the terminal process:
+``` sh
+exit
+```
