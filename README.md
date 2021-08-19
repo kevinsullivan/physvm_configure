@@ -3,34 +3,22 @@
 Use this project to configure and build the
 physvm Docker image needed by physvm_develop,
 which in turn serves as a templace for a new
-project building on our math-physics library. 
+project building on our math-physics library.
 
 To use this project, clone it to your local
 machine, edit Dockerfile, and then build and
 push to Dockerhub a new image using commands
 explained below.
 
-At
-present, this builder just imports and exports
-leanvm without changes. However, it builds and
-pushes a new image, physvm, which is what our
-physvm_develop forkable project template needs
-to import. Here are the commands to buid, push
-(to DockerHub), and use our physvm containers.
-We assume you've already got docker running on
-your computer. Be logged in to the DockerHub
-account to be able to push the result.
-
 ## Build image from Dockerfile
 
-To build a new version of the clean_lean image, 
-run the following command in a terminal with this
-directory as the current working directory. The
-repository image name is kevinsullivan/clean_lean.
-It will have the tag, *latest*.
+To build a new version of the physvm image from
+the Dockerfile in this project, run the following 
+command in a terminal with this directory as the
+current working directory. 
 
 ``` sh
-docker build -t kevinsullivan/leanvm:latest . -m 8g
+docker build -t kevinsullivan/physvm:latest . -m 8g
 ```
 
 ## Push image to DockerHub
@@ -38,7 +26,7 @@ docker build -t kevinsullivan/leanvm:latest . -m 8g
 To push a copy of this image to dockerhub, do this:
 
 ``` sh
-docker push kevinsullivan/leanvm
+docker push kevinsullivan/physvm
 ```
 
 ## Pull image from DockerHub
@@ -46,7 +34,7 @@ docker push kevinsullivan/leanvm
 To pull a copy of the image to your local host machine, run:
 
 ```sh
-docker pull kevinsullivan/leanvm
+docker pull kevinsullivan/physvm
 ```
 
 ## Start container
@@ -60,7 +48,7 @@ container-local directory, /dm.
 
 ``` sh
 docker run -it --cap-add=SYS_PTRACE --rm --security-opt seccomp=unconfined \
-    --name %container_name% -v %source_directory_on_host%:/dm kevinsullivan/leanvm \
+    --name %container_name% -v %source_directory_on_host%:/dm kevinsullivan/physvm \
     /bin/bash
 ```
 
